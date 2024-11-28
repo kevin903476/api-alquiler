@@ -8,7 +8,7 @@ class Conectar {
     protected function conectar_bd() {
         try {
             // Establece la conexión utilizando PDO
-            $conexion = $this->conexion_bd = new PDO("mysql:host=localhost;dbname=alquiler", "root", "");
+            $conexion = $this->conexion_bd = new PDO("mysql:host=mysql.railway.internal;dbname=alquiler", "root", "JGMckceHxTYheiHBCakwuvlmiepLyAow","3306");
             return $conexion;
         } catch (Exception $e) {
             // Si ocurre un error, muestra el mensaje de error y detiene la ejecución
