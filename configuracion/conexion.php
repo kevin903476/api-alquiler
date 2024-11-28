@@ -15,7 +15,7 @@ class Conectar {
             $port = "3306";
 
             // Establece la conexión utilizando mysqli_connect
-            $this->conexion_bd = mysqli_connect($host, $user, $pass, $db);
+            $this->conexion_bd = mysqli_connect($host, $user, $pass, $db, $port);
 
             // Verifica si la conexión fue exitosa
             if (!$this->conexion_bd) {
