@@ -3,12 +3,20 @@
 class Conectar {
     // Variable protegida para almacenar la instancia de la conexión
     protected $conexion_bd;
-    
+
     // Método protegido para establecer la conexión con la base de datos
     protected function conectar_bd() {
         try {
             // Establece la conexión utilizando PDO
-            $conexion = $this->conexion_bd = new PDO("mysql://root:JGMckceHxTYheiHBCakwuvlmiepLyAow@mysql.railway.internal:3306/railway");
+            $conexion = $this->conexion_bd = new PDO(
+                "mysql:host=mysql.railway.internal;port=3306;dbname=railway",
+                "root",
+                "JGMckceHxTYheiHBCakwuvlmiepLyAow"
+            );
+
+            // Configura el modo de errores para PDO
+            $this->conexion_bd->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
             return $conexion;
         } catch (Exception $e) {
             // Si ocurre un error, muestra el mensaje de error y detiene la ejecución
