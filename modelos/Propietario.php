@@ -41,11 +41,6 @@ class Propietario extends Conectar {
 
     // Inserta una nuevo propietario
     public function insertar_propietario($DNI, $nombre, $telefono, $email) {
-        // Verificar que el DNI comience con 3 o 4
-        if (!preg_match('/^[34]/', $DNI)) {
-            // Si el DNI no comienza con 3 o 4, devolver un error
-            return ["error" => "El DNI debe comenzar con 3 o 4"];
-        }
     
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
@@ -70,12 +65,7 @@ class Propietario extends Conectar {
 
     // Actualiza una categoría existente
     public function actualizar_propietario($DNI, $nombre, $telefono, $email) {
-        // Verificar que el DNI comience con 3 o 4
-        if (!preg_match('/^[34]/', $DNI)) {
-            // Si el DNI no comienza con 3 o 4, devolver un error
-            return ["error" => "El DNI debe comenzar con 3 o 4"];
-        }
-    
+
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();

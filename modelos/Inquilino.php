@@ -41,11 +41,6 @@ class Inquilino extends Conectar {
 
     // Inserta una nuevo propietario
     public function insertar_inquilino($DNI, $nombre, $telefono, $email, $fecha_inicio_alquiler, $id_casa) {
-        // Verificar que el DNI comience con 1 o 2
-        if (!preg_match('/^[12]/', $DNI)) {
-            // Si el DNI no comienza con 1 o 2, devolver un error
-            return ["error" => "El DNI debe comenzar con 1 o 2"];
-        }
     
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
@@ -72,12 +67,6 @@ class Inquilino extends Conectar {
 
     // Actualiza una categoría existente
     public function actualizar_inquilino($DNI, $nombre, $telefono, $email, $fecha_inicio_alquiler, $id_casa) {
-        // Verificar que el DNI comience con 1 o 2
-        if (!preg_match('/^[12]/', $DNI)) {
-            // Si el DNI no comienza con 1 o 2, devolver un error
-            return ["error" => "El DNI debe comenzar con 1 o 2 para actualizar"];
-        }
-    
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();
