@@ -5,7 +5,7 @@ header("Content-Type: application/json");
 
 // Incluye los archivos necesarios para la conexión a la base de datos y la clase Categoria
 require_once("../configuracion/conexion.php");
-require_once("../modelos/Casa.php");
+require_once("../modelos/casa.php");
 
 // Crea una instancia de la clase Categoria
 $casa = new Casa();

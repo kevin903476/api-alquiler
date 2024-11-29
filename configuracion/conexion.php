@@ -8,10 +8,10 @@ class Conectar {
     protected function conectar_bd() {
         try {
             // Datos de conexión a la base de datos
-            $host = "smysql.railway.internal"; // Asegúrate de que este sea correcto
-            $user = "root";           // Usuario de la base de datos
-            $pass = "JGMckceHxTYheiHBCakwuvlmiepLyAow";        // Contraseña de la base de datos
-            $db = "railway";   // Nombre de la base de datos
+            $host = "mysql.railway.internal"; 
+            $user = "root";           
+            $pass = "JGMckceHxTYheiHBCakwuvlmiepLyAow";        
+            $db = "railway";   
             $port = "3306";
 
             // Establece la conexión utilizando mysqli_connect
