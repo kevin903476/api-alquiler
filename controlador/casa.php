@@ -1,6 +1,6 @@
 <?php
 // Establece encabezados de CORS
-header("Access-Control-Allow-Origin: https://pagina-alquiler.vercel.app/"); // Cambia por tu dominio frontend
+header("Access-Control-Allow-Origin: https://pagina-alquiler.vercel.app"); // Cambia por tu dominio frontend
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS"); // Métodos permitidos
 header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Encabezados permitidos
 header("Content-Type: application/json"); // Tipo de contenido
