@@ -1,7 +1,16 @@
 <?php
 
 // Establece el tipo de contenido a JSON
-header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: https://pagina-alquiler.vercel.app"); // Cambia por tu dominio frontend
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS"); // Métodos permitidos
+header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Encabezados permitidos
+header("Content-Type: application/json"); // Tipo de contenido
+
+// Manejo para solicitudes preflight (método OPTIONS)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200); // Responde con éxito para OPTIONS
+    exit();
+}
 
 // Incluye los archivos necesarios para la conexión a la base de datos y la clase Categoria
 require_once("../configuracion/conexion.php");

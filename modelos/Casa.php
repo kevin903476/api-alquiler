@@ -44,22 +44,28 @@ class Casa extends Conectar {
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();
-        
-        // Sentencia SQL para insertar una nueva categoría
+    
+        // Verifica si el DNI ya está registrado
+        $consulta_sql = "SELECT * FROM casa WHERE DNI_propietario = ?";
+        $consulta = $conexion->prepare($consulta_sql);
+        $consulta->bindValue(1, $DNI_propietario);
+        $consulta->execute();
+    
+        if ($consulta->rowCount() > 0) {
+            // Si el DNI ya existe, retornamos un mensaje de error
+            return ["success" => false, "message" => "El DNI del propietario ya está registrado"];
+        }
+    
+        // Sentencia SQL para insertar una nueva casa
         $sentencia_sql = "INSERT INTO `casa`(`id_casa`, `direccion`, `ciudad`, `precio_alquiler`, `DNI_propietario`) VALUES (NULL,?,?,?,?)";
-
-        // Prepara la sentencia SQL
         $sentencia = $conexion->prepare($sentencia_sql);
         $sentencia->bindValue(1, $direccion);  
         $sentencia->bindValue(2, $ciudad);  
         $sentencia->bindValue(3, $precio_alquiler); 
         $sentencia->bindValue(4, $DNI_propietario); 
-
-        // Ejecuta la sentencia
         $sentencia->execute();
-
-        // Retorna el resultado (aunque no es necesario para un insert, se puede omitir)
-        return $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    
+        return ["success" => true, "message" => "Inserción Realizada"];
     }
 
     // Actualiza una categoría existente
@@ -67,22 +73,30 @@ class Casa extends Conectar {
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();
-        
-        // Sentencia SQL para actualizar una categoría existente
-        $sentencia_sql = "UPDATE `casa` SET `direccion`= ? ,`ciudad`= ? ,`precio_alquiler`=?,`DNI_propietario`=? WHERE id_casa = ? ";
-
-        // Prepara la sentencia SQL
-        $sentencia = $conexion->prepare($sentencia_sql);
-         
-        $sentencia->bindValue(1, $direccion);  
-        $sentencia->bindValue(2, $ciudad);  
-        $sentencia->bindValue(3, $precio_alquiler); 
-        $sentencia->bindValue(4, $DNI_propietario); 
-        $sentencia->bindValue(5, $id_casa); 
-
+    
+        // Verifica si el DNI_propietario se ha proporcionado
+        if ($DNI_propietario === null) {
+            // Si no se envió un DNI_propietario, no lo actualizamos
+            $sentencia_sql = "UPDATE `casa` SET `direccion`= ?, `ciudad`= ?, `precio_alquiler`= ? WHERE id_casa = ?";
+            $sentencia = $conexion->prepare($sentencia_sql);
+            $sentencia->bindValue(1, $direccion);
+            $sentencia->bindValue(2, $ciudad);
+            $sentencia->bindValue(3, $precio_alquiler);
+            $sentencia->bindValue(4, $id_casa);
+        } else {
+            // Si se proporcionó un DNI_propietario, lo actualizamos
+            $sentencia_sql = "UPDATE `casa` SET `direccion`= ?, `ciudad`= ?, `precio_alquiler`= ?, `DNI_propietario`= ? WHERE id_casa = ?";
+            $sentencia = $conexion->prepare($sentencia_sql);
+            $sentencia->bindValue(1, $direccion);
+            $sentencia->bindValue(2, $ciudad);
+            $sentencia->bindValue(3, $precio_alquiler);
+            $sentencia->bindValue(4, $DNI_propietario);
+            $sentencia->bindValue(5, $id_casa);
+        }
+    
         // Ejecuta la sentencia
         $sentencia->execute();
-
+    
         // Retorna el resultado (aunque no es necesario para un update, se puede omitir)
         return $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }

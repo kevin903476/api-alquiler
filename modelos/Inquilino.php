@@ -40,14 +40,20 @@ class Inquilino extends Conectar {
     }
 
     // Inserta una nuevo propietario
-    public function insertar_inquilino($DNI, $nombre, $telefono,$email,  $fecha_inicio_alquiler, $id_casa) {
+    public function insertar_inquilino($DNI, $nombre, $telefono, $email, $fecha_inicio_alquiler, $id_casa) {
+        // Verificar que el DNI comience con 1 o 2
+        if (!preg_match('/^[12]/', $DNI)) {
+            // Si el DNI no comienza con 1 o 2, devolver un error
+            return ["error" => "El DNI debe comenzar con 1 o 2"];
+        }
+    
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();
-        
-        // Sentencia SQL para insertar una nueva categoría
+    
+        // Sentencia SQL para insertar un nuevo inquilino
         $sentencia_sql = "INSERT INTO `inquilino`(`DNI`, `nombre`, `telefono`, `email`, `fecha_inicio_alquiler`, `id_casa`) VALUES (?,?,?,?,?,?)";
-
+    
         // Prepara la sentencia SQL
         $sentencia = $conexion->prepare($sentencia_sql);
         $sentencia->bindValue(1, $DNI);  
@@ -56,39 +62,47 @@ class Inquilino extends Conectar {
         $sentencia->bindValue(4, $email); 
         $sentencia->bindValue(5, $fecha_inicio_alquiler); 
         $sentencia->bindValue(6, $id_casa); 
-
+    
         // Ejecuta la sentencia
         $sentencia->execute();
-
+    
         // Retorna el resultado (aunque no es necesario para un insert, se puede omitir)
-        return $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+        return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Actualiza una categoría existente
-    public function actualizar_inquilino($DNI, $nombre, $telefono,$email, $fecha_inicio_alquiler, $id_casa) {
+    public function actualizar_inquilino($DNI, $nombre, $telefono, $email, $fecha_inicio_alquiler, $id_casa) {
+        // Verificar que el DNI comience con 1 o 2
+        if (!preg_match('/^[12]/', $DNI)) {
+            // Si el DNI no comienza con 1 o 2, devolver un error
+            return ["error" => "El DNI debe comenzar con 1 o 2 para actualizar"];
+        }
+    
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();
-        
-        // Sentencia SQL para actualizar una categoría existente
-        $sentencia_sql = "UPDATE `inquilino` SET `nombre`= ? ,`telefono`= ? ,`email`= ? ,`fecha_inicio_alquiler`= ? ,`id_casa`= ? WHERE `DNI`= ? ";
-
+    
+        // Sentencia SQL para actualizar un inquilino existente
+        $sentencia_sql = "UPDATE `inquilino` SET `nombre`= ?, `telefono`= ?, `email`= ?, `fecha_inicio_alquiler`= ?, `id_casa`= ? WHERE `DNI`= ?";
+    
         // Prepara la sentencia SQL
         $sentencia = $conexion->prepare($sentencia_sql);
-         
-        $sentencia->bindValue(1, $nombre);  
-        $sentencia->bindValue(2, $telefono); 
-        $sentencia->bindValue(3, $email); 
-        $sentencia->bindValue(4, $fecha_inicio_alquiler); 
-        $sentencia->bindValue(5, $id_casa); 
-        $sentencia->bindValue(6, $DNI); 
-
+    
+        // Vincula los valores
+        $sentencia->bindValue(1, $nombre);
+        $sentencia->bindValue(2, $telefono);
+        $sentencia->bindValue(3, $email);
+        $sentencia->bindValue(4, $fecha_inicio_alquiler);
+        $sentencia->bindValue(5, $id_casa);
+        $sentencia->bindValue(6, $DNI);
+    
         // Ejecuta la sentencia
         $sentencia->execute();
-
-        // Retorna el resultado (aunque no es necesario para un update, se puede omitir)
-        return $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Retorna el número de filas afectadas (opcional)
+        return $sentencia->rowCount(); // Puede ser útil para verificar si se actualizó alguna fila
     }
+    
 
     // Desactiva (elimina lógicamente) una categoría
     public function eliminar_inquilino($DNI) {

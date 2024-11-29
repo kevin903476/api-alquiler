@@ -41,49 +41,62 @@ class Propietario extends Conectar {
 
     // Inserta una nuevo propietario
     public function insertar_propietario($DNI, $nombre, $telefono, $email) {
+        // Verificar que el DNI comience con 3 o 4
+        if (!preg_match('/^[34]/', $DNI)) {
+            // Si el DNI no comienza con 3 o 4, devolver un error
+            return ["error" => "El DNI debe comenzar con 3 o 4"];
+        }
+    
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();
-        
-        // Sentencia SQL para insertar una nueva categoría
-        $sentencia_sql = "INSERT INTO `propietario`(`DNI`, `nombre`, `telefono`, `email`) VALUES (?, ? , ? , ?)";
-
+    
+        // Sentencia SQL para insertar un nuevo propietario
+        $sentencia_sql = "INSERT INTO `propietario`(`DNI`, `nombre`, `telefono`, `email`) VALUES (?, ?, ?, ?)";
+    
         // Prepara la sentencia SQL
         $sentencia = $conexion->prepare($sentencia_sql);
-        $sentencia->bindValue(1, $DNI);  
-        $sentencia->bindValue(2, $nombre);  
-        $sentencia->bindValue(3, $telefono); 
-        $sentencia->bindValue(4, $email); 
-
+        $sentencia->bindValue(1, $DNI);
+        $sentencia->bindValue(2, $nombre);
+        $sentencia->bindValue(3, $telefono);
+        $sentencia->bindValue(4, $email);
+    
         // Ejecuta la sentencia
         $sentencia->execute();
-
-        // Retorna el resultado (aunque no es necesario para un insert, se puede omitir)
-        return $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Retorna el número de filas afectadas (opcional)
+        return $sentencia->rowCount(); // Retorna el número de filas insertadas
     }
 
     // Actualiza una categoría existente
     public function actualizar_propietario($DNI, $nombre, $telefono, $email) {
+        // Verificar que el DNI comience con 3 o 4
+        if (!preg_match('/^[34]/', $DNI)) {
+            // Si el DNI no comienza con 3 o 4, devolver un error
+            return ["error" => "El DNI debe comenzar con 3 o 4"];
+        }
+    
         // Establece la conexión a la base de datos
         $conexion = parent::conectar_bd();
         parent::establecer_codificacion();
-        
-        // Sentencia SQL para actualizar una categoría existente
-        $sentencia_sql = "UPDATE `propietario` SET `nombre`=?,`telefono`= ?,`email`=? WHERE DNI = ?";
-
+    
+        // Sentencia SQL para actualizar un propietario
+        $sentencia_sql = "UPDATE `propietario` SET `nombre`=?, `telefono`=?, `email`=? WHERE `DNI`=?";
+    
         // Prepara la sentencia SQL
         $sentencia = $conexion->prepare($sentencia_sql);
-         
-        $sentencia->bindValue(1, $nombre);  
-        $sentencia->bindValue(2, $telefono); 
-        $sentencia->bindValue(3, $email); 
-        $sentencia->bindValue(4, $DNI); 
-
+    
+        // Vincula los valores a la sentencia
+        $sentencia->bindValue(1, $nombre);
+        $sentencia->bindValue(2, $telefono);
+        $sentencia->bindValue(3, $email);
+        $sentencia->bindValue(4, $DNI);
+    
         // Ejecuta la sentencia
         $sentencia->execute();
-
-        // Retorna el resultado (aunque no es necesario para un update, se puede omitir)
-        return $resultado = $sentencia->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Retorna el número de filas afectadas (indica si la actualización fue exitosa)
+        return ["filas_afectadas" => $sentencia->rowCount()];
     }
 
     // Desactiva (elimina lógicamente) una categoría
