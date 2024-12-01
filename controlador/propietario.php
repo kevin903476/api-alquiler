@@ -1,6 +1,7 @@
 <?php
 
 // Establece el tipo de contenido a JSON
+//header("Access-Control-Allow-Origin: *"); // Permite solicitudes desde cualquier origen
 header("Access-Control-Allow-Origin: https://pagina-alquiler.vercel.app"); // Cambia por tu dominio frontend
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTIONS"); // Métodos permitidos
 header("Access-Control-Allow-Headers: Content-Type, Authorization"); // Encabezados permitidos

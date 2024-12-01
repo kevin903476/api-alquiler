@@ -46,7 +46,7 @@ class Casa extends Conectar {
         parent::establecer_codificacion();
     
         // Verifica si el DNI ya está registrado
-        $consulta_sql = "SELECT * FROM casa WHERE DNI_propietario = ?";
+       /* $consulta_sql = "SELECT * FROM casa WHERE DNI_propietario = ?";
         $consulta = $conexion->prepare($consulta_sql);
         $consulta->bindValue(1, $DNI_propietario);
         $consulta->execute();
@@ -55,7 +55,7 @@ class Casa extends Conectar {
             // Si el DNI ya existe, retornamos un mensaje de error
             return ["success" => false, "message" => "El DNI del propietario ya está registrado"];
         }
-    
+        */
         // Sentencia SQL para insertar una nueva casa
         $sentencia_sql = "INSERT INTO `casa`(`id_casa`, `direccion`, `ciudad`, `precio_alquiler`, `DNI_propietario`) VALUES (NULL,?,?,?,?)";
         $sentencia = $conexion->prepare($sentencia_sql);
